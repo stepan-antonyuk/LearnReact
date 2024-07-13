@@ -162,10 +162,59 @@ function TwoClickButtonsShare() {
     );
 }
 
+
+// tic-tac-toe start from here
+function Square({value, onClick}) {
+    return (
+        <button 
+            className="square"
+            onClick={onClick}
+        >
+            {value}
+        </button>
+    );
+}
+
+export default function Board() {
+    const [squares, setSquares] = useState(Array(9).fill(null));
+    const [xIsNext, setXIsNext] = useState(true);
+
+    function OnClick(i) {
+        const nextSquares = squares.slice();
+        if (xIsNext) {
+            nextSquares[i] = 'X';
+        } else {
+            nextSquares[i] = 'O';
+        }
+        setSquares(nextSquares);
+        setXIsNext(!xIsNext);
+    }
+
+    return (
+        <>
+            <div className="board-row">
+                <Square value={squares[0]} onClick={() => OnClick(0)}/>
+                <Square value={squares[1]} onClick={() => OnClick(1)}/>
+                <Square value={squares[2]} onClick={() => OnClick(2)}/>
+            </div>
+            <div className="board-row">
+                <Square value={squares[3]} onClick={() => OnClick(3)}/>
+                <Square value={squares[4]} onClick={() => OnClick(4)}/>
+                <Square value={squares[5]} onClick={() => OnClick(5)}/>
+            </div>
+            <div className="board-row">
+                <Square value={squares[6]} onClick={() => OnClick(6)}/>
+                <Square value={squares[7]} onClick={() => OnClick(7)}/>
+                <Square value={squares[8]} onClick={() => OnClick(8)}/>
+            </div>
+        </>
+    );
+}
+
 //export default App;
 //export default MyApp;
 //export default Profile;
 //export default ShoppingList;
 //export default ClickButton;
 //export default TwoClickButtons;
-export default TwoClickButtonsShare;
+//export default TwoClickButtonsShare;
