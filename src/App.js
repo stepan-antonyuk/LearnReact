@@ -175,7 +175,8 @@ function Square({value, onClick}) {
     );
 }
 
-export default function Board() {
+//export default function Board() {
+function Board() {
     const [squares, setSquares] = useState(Array(9).fill(null));
     const [xIsNext, setXIsNext] = useState(true);
 
@@ -213,6 +214,83 @@ export default function Board() {
     );
 }
 
+const userInfo = {
+    name: "ABC DEF",
+    tenant: "Tenant #1",
+    cloudloc: "Home"
+}
+
+var emails = [
+    {id: 1, toUser: "Me", fromUser: "Him", emailText: "This is a text!"},
+    {id: 2, toUser: "Me", fromUser: "Him", emailText: "This is a another text!"}
+]
+
+function UserInfo() {
+    return (
+        <>
+            <p>{"Username: " + userInfo.name}</p>
+            <p>{"Tenant: " + userInfo.tenant}</p>
+        </>
+    );
+}
+
+function EmailButton({emailID, onClick}) {
+    return (
+        <>
+            <button onClick={() => onClick(emailID)}>
+                X    
+            </button>
+                
+        </>
+    );
+}
+
+function Email({email}) {
+    return (
+        <>
+            <div style={{
+                display: 'flex',
+                alignItem: 'center',
+                justifyContent: 'center',
+                }}>
+                To: {email.toUser}
+                <br />
+                From: {email.fromUser}
+                <br />
+                {email.emailText}
+            </div>
+        </>
+    );
+}
+
+function DisplayEmails() {
+    function OnClick({id}) {
+        emails = emails.filter((item) => item.id !== id);
+        console.log(emails);
+    }
+
+    const rows = []
+    for (let i=0; i < emails.length; i++) {
+        rows.push(<EmailButton emailID={emails[i].id} onClick={OnClick}/>);
+        rows.push(<Email email={emails[i]}/>);
+    }
+    return (
+        <tbody>
+            {rows}
+        </tbody>
+    );
+}
+
+function HomePage() {
+    return (
+        <>
+            <h1>{userInfo.cloudloc}</h1>
+            <UserInfo />
+            <DisplayEmails />
+        </>
+    );
+}
+
 //export default App;
 //export default MyApp;
 //export default Profile;
@@ -220,3 +298,4 @@ export default function Board() {
 //export default ClickButton;
 //export default TwoClickButtons;
 //export default TwoClickButtonsShare;
+export default HomePage;
