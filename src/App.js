@@ -215,9 +215,8 @@ function Board() {
 }
 
 const userInfo = {
-    name: "ABC DEF",
+    name: "Fname Lname",
     tenant: "Tenant #1",
-    cloudloc: "Home"
 }
 
 var emails = [
@@ -248,24 +247,21 @@ function EmailButton({emailID, onClick}) {
 function Email({email}) {
     return (
         <>
-            <div style={{
-                display: 'flex',
-                alignItem: 'center',
-                justifyContent: 'center',
-                }}>
-                To: {email.toUser}
-                <br />
-                From: {email.fromUser}
-                <br />
-                {email.emailText}
-            </div>
+            <text> To: {email.toUser} </text>
+            <br />
+            <text> From: {email.fromUser} </text>
+            <br />
+            <text> {email.emailText} </text>
+            <br />
+            <br />
         </>
     );
 }
 
 function DisplayEmails() {
     function OnClick({id}) {
-        emails = emails.filter((item) => item.id !== id);
+        //emails = emails.filter((item) => item.id !== id);
+        emails.splice(id,1)
         console.log(emails);
     }
 
@@ -276,17 +272,107 @@ function DisplayEmails() {
     }
     return (
         <tbody>
+            <text> Emails </text>
+            <br />
+            <br />
             {rows}
         </tbody>
     );
 }
 
+//============================== Syniti Project ==================
+function Navbar({user}) {
+    return (
+        <nav className="nav">
+            <a href="/" className="site-title">Homepage</a>
+            <ul>
+                <li className="active">
+                    <a href="/emails">Emails</a>
+                </li>
+                <li className="active">
+                    <a href="/storage">Storage</a>
+                </li>
+                <li className="active">
+                    <a href="/pictures">Pictures</a>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <a className="user-info">{user.name}</a>
+                </li>
+                <li>
+                    <a className="user-info">{user.tenant}</a>
+                </li>
+            </ul>
+        </nav>
+    );
+}
+
+function ButtonPictures({count, onClick, text}) {
+    return (
+        <button onClick={onClick}>
+            {text}
+        </button>
+    );
+}
+
+function Pictures() {
+    const [count, setCount] = useState(0);
+    const [file, setFile] = useState();
+    const [imgs, setImgs] = useState([]);
+
+    const rows = [];
+    for (let i=0; i < imgs.length; i++) {
+        rows.push(<img src={imgs[i]} />);
+    }
+
+    function AddPicture() {
+        setCount(count + 1);
+    }
+
+    function RemovePicture() {
+        if (count > 0) {
+            imgs.pop();
+            setCount(count - 1);
+        }
+    }
+
+    function UploadImg(e) {
+        imgs.push(URL.createObjectURL(e.target.files[0]));
+        setCount(count + 1);
+    }
+
+    return (
+        <div className="pics">
+            <h1>Pictures</h1>
+            <p> You have {count} pictures! </p>
+            <input type="file" onChange={UploadImg} />
+            <br />
+            {rows}
+            <ul>
+                <li>
+                    <ButtonPictures count={count} onClick={AddPicture} text={"Add"} />
+                </li>
+                <li>
+                    <ButtonPictures count={count} onClick={RemovePicture} text={"Remove"} />
+                </li>
+            </ul>
+        </div>
+    );
+}
+
+function Storage() {
+    const [sotrage, setStorage] = useState(0);
+}
+
+function Emails() {}
+
 function HomePage() {
     return (
         <>
-            <h1>{userInfo.cloudloc}</h1>
-            <UserInfo />
-            <DisplayEmails />
+            <Navbar user={userInfo}/>
+            <br />
+            <Pictures />
         </>
     );
 }
