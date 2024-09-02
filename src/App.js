@@ -379,9 +379,13 @@ function Emails() {
     ]);
 
     const rows = []
-    for (let i=0; i < emails.length; i++) {
-        rows.push(<EmailButton id={emails[i].id} onClick={OnClick}/>);
-        rows.push(<DisplayEmail email={emails[i]}/>);
+    if (emails.length > 0) {
+        for (let i=0; i < emails.length; i++) {
+            rows.push(<EmailButton id={emails[i].id} onClick={OnClick}/>);
+            rows.push(<DisplayEmail email={emails[i]}/>);
+        }
+    } else {
+        rows.push(<p> You have no emails </p>);
     }
 
     function OnClick(id) {
