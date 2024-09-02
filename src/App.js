@@ -308,7 +308,7 @@ function Navbar({user}) {
     );
 }
 
-function ButtonPictures({count, onClick, text}) {
+function GenericButton({count, onClick, text}) {
     return (
         <button onClick={onClick}>
             {text}
@@ -343,7 +343,7 @@ function Pictures() {
     }
 
     return (
-        <div className="pics">
+        <div className="apps">
             <h1>Pictures</h1>
             <p> You have {count} pictures! </p>
             <input type="file" onChange={UploadImg} />
@@ -351,10 +351,10 @@ function Pictures() {
             {rows}
             <ul>
                 <li>
-                    <ButtonPictures count={count} onClick={AddPicture} text={"Add"} />
+                    <GenericButton count={count} onClick={AddPicture} text={"Add"} />
                 </li>
                 <li>
-                    <ButtonPictures count={count} onClick={RemovePicture} text={"Remove"} />
+                    <GenericButton count={count} onClick={RemovePicture} text={"Remove"} />
                 </li>
             </ul>
         </div>
@@ -362,7 +362,35 @@ function Pictures() {
 }
 
 function Storage() {
-    const [sotrage, setStorage] = useState(0);
+    const [storage, setStorage] = useState(0);
+    const [maxStorage, setMaxStorage] = useState(10);
+
+    function Download() {
+        if (storage < maxStorage) {
+            setStorage(storage + 1);
+        }
+    }
+
+    function FreeUpSpace() {
+        if (storage > 0) {
+            setStorage(storage - 1);
+        }
+    }
+
+    return(
+        <div className="apps">
+            <h1>Storage</h1>
+            <p> You have {maxStorage - storage} left to use</p>
+            <ul>
+                <li>
+                    <GenericButton count={storage} onClick={Download} text={"Add"} />
+                </li>
+                <li>
+                    <GenericButton count={storage} onClick={FreeUpSpace} text={"Remove"} />
+                </li>
+            </ul>
+        </div>
+    );
 }
 
 function Emails() {}
@@ -373,6 +401,8 @@ function HomePage() {
             <Navbar user={userInfo}/>
             <br />
             <Pictures />
+            <br />
+            <Storage />
         </>
     );
 }

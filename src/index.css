@@ -51,24 +51,28 @@ code {
     background-color: #777;
 }
 
-.pics {
+.apps {
     border-style: solid;
 }
 
-.pics h1 {
+.apps h1 {
     margin: 1rem;
 }
 
-.pics p {
+.apps p {
     margin: 1rem;
 }
 
-.pics ul {
+.apps ul {
     padding: 1rem;
     display: flex;
     gap: 1rem;
 }
 
-.pics li {
+.apps li {
     list-style-type: none;
+}
+
+.apps input {
+    padding: 1rem;
 }
