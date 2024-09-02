@@ -214,16 +214,6 @@ function Board() {
     );
 }
 
-const userInfo = {
-    name: "Fname Lname",
-    tenant: "Tenant #1",
-}
-
-var emails = [
-    {id: 1, toUser: "Me", fromUser: "Him", emailText: "This is a text!"},
-    {id: 2, toUser: "Me", fromUser: "Him", emailText: "This is a another text!"}
-]
-
 function UserInfo() {
     return (
         <>
@@ -233,54 +223,14 @@ function UserInfo() {
     );
 }
 
-function EmailButton({emailID, onClick}) {
-    return (
-        <>
-            <button onClick={() => onClick(emailID)}>
-                X    
-            </button>
-                
-        </>
-    );
-}
-
-function Email({email}) {
-    return (
-        <>
-            <text> To: {email.toUser} </text>
-            <br />
-            <text> From: {email.fromUser} </text>
-            <br />
-            <text> {email.emailText} </text>
-            <br />
-            <br />
-        </>
-    );
-}
-
-function DisplayEmails() {
-    function OnClick({id}) {
-        //emails = emails.filter((item) => item.id !== id);
-        emails.splice(id,1)
-        console.log(emails);
-    }
-
-    const rows = []
-    for (let i=0; i < emails.length; i++) {
-        rows.push(<EmailButton emailID={emails[i].id} onClick={OnClick}/>);
-        rows.push(<Email email={emails[i]}/>);
-    }
-    return (
-        <tbody>
-            <text> Emails </text>
-            <br />
-            <br />
-            {rows}
-        </tbody>
-    );
-}
 
 //============================== Syniti Project ==================
+const userInfo = {
+    name: "Fname Lname",
+    tenant: "Tenant #1",
+}
+
+
 function Navbar({user}) {
     return (
         <nav className="nav">
@@ -308,7 +258,7 @@ function Navbar({user}) {
     );
 }
 
-function GenericButton({count, onClick, text}) {
+function GenericButton({onClick, text}) {
     return (
         <button onClick={onClick}>
             {text}
@@ -351,10 +301,10 @@ function Pictures() {
             {rows}
             <ul>
                 <li>
-                    <GenericButton count={count} onClick={AddPicture} text={"Add"} />
+                    <GenericButton onClick={AddPicture} text={"Add"} />
                 </li>
                 <li>
-                    <GenericButton count={count} onClick={RemovePicture} text={"Remove"} />
+                    <GenericButton onClick={RemovePicture} text={"Remove"} />
                 </li>
             </ul>
         </div>
@@ -383,17 +333,62 @@ function Storage() {
             <p> You have {maxStorage - storage} left to use</p>
             <ul>
                 <li>
-                    <GenericButton count={storage} onClick={Download} text={"Add"} />
+                    <GenericButton onClick={Download} text={"Add"} />
                 </li>
                 <li>
-                    <GenericButton count={storage} onClick={FreeUpSpace} text={"Remove"} />
+                    <GenericButton onClick={FreeUpSpace} text={"Remove"} />
                 </li>
             </ul>
         </div>
     );
 }
 
-function Emails() {}
+function EmailButton({id, onClick}) {
+    return (
+        <div>
+            <button onClick={() => onClick(id)}>
+                X
+            </button>
+        </div>
+    );
+}
+
+function DisplayEmail({email}) {
+    return (
+        <div className="email">
+            <p> To: {email.toUser} </p>
+            <p> From: {email.fromUser} </p>
+            <p> {email.emailText} </p>
+            <br />
+        </div>
+    );
+}
+
+function Emails() {
+    const [emails, setEmails] = useState([
+    {id: 1, toUser: "Me", fromUser: "Him", emailText: "This is a text!"},
+    {id: 2, toUser: "Me", fromUser: "Him", emailText: "This is a another text!"}
+    ]);
+
+    const rows = []
+    for (let i=0; i < emails.length; i++) {
+        rows.push(<EmailButton id={emails[i].id} onClick={OnClick}/>);
+        rows.push(<DisplayEmail email={emails[i]}/>);
+    }
+
+    function OnClick(id) {
+        let index = emails.findIndex(x => x.id === id);
+        emails.splice(index,1);
+        setEmails([...emails]);
+    }
+
+    return (
+        <div className="apps">
+            <h1> Emails </h1>
+            {rows}
+        </div>
+    );
+}
 
 function HomePage() {
     return (
@@ -403,6 +398,9 @@ function HomePage() {
             <Pictures />
             <br />
             <Storage />
+            <br />
+            <Emails />
+            <br />
         </>
     );
 }

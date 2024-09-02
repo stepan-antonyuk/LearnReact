@@ -76,3 +76,8 @@ code {
 .apps input {
     padding: 1rem;
 }
+
+.email {
+    border-style: solid;
+    margin: 1rem;
+}
