@@ -273,7 +273,15 @@ function Pictures() {
 
     const rows = [];
     for (let i=0; i < imgs.length; i++) {
-        rows.push(<img src={imgs[i]} />);
+        rows.push(<img className="avatar"
+                src={user.imageUrl}
+                alt={'Photo of ' + user.name}
+                style={{
+                    width: user.imageSize,
+                    height: user.imageSize
+                }}
+                src={imgs[i]} />
+        );
     }
 
     function AddPicture() {
